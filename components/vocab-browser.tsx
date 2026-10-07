@@ -42,7 +42,7 @@ export function VocabBrowser() {
     <>
       <PageHeader eyebrow={`${WORDS.length}+ ${t.home.words}`} title={t.vocab.title} desc={t.vocab.desc} />
 
-      <div className="glass-strong sticky top-[4.75rem] z-30 mb-6 flex flex-col gap-4 rounded-3xl p-4 sm:top-[5.5rem]">
+      <div className="glass-nav sticky top-[3.75rem] z-30 mb-6 flex flex-col gap-4 rounded-3xl p-4 sm:top-[5.25rem]">
         <label className="relative block">
           <span className="sr-only">{t.vocab.search}</span>
           <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />

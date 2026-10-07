@@ -42,7 +42,7 @@ export function Segmented<T extends string>({
             className={cn(
               'rounded-full font-semibold transition-all',
               o.lang?.startsWith('zh') && 'font-hanzi',
-              size === 'sm' ? 'px-3 py-1 text-xs' : 'px-3.5 py-1.5 text-sm',
+              size === 'sm' ? 'px-2.5 py-1 text-[11px] sm:px-3 sm:text-xs' : 'px-3 py-1.5 text-[13px] sm:px-3.5 sm:text-sm',
               active
                 ? 'bg-foreground text-background shadow-[0_4px_14px_-4px_oklch(0_0_0/50%)]'
                 : 'text-muted-foreground hover:text-foreground',

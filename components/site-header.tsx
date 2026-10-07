@@ -18,14 +18,14 @@ export function SiteHeader() {
   useEffect(() => {
     if (!open) return
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false)
-    const onDown = (e: MouseEvent) => {
+    const onDown = (e: PointerEvent) => {
       if (panelRef.current && !panelRef.current.contains(e.target as Node)) setOpen(false)
     }
     document.addEventListener('keydown', onKey)
-    document.addEventListener('mousedown', onDown)
+    document.addEventListener('pointerdown', onDown)
     return () => {
       document.removeEventListener('keydown', onKey)
-      document.removeEventListener('mousedown', onDown)
+      document.removeEventListener('pointerdown', onDown)
     }
   }, [open])
 
@@ -39,12 +39,12 @@ export function SiteHeader() {
   ]
 
   return (
-    <header className="sticky top-0 z-40 px-3 pt-3 sm:px-6">
-      <div className="glass-strong mx-auto flex h-14 max-w-6xl items-center gap-3 rounded-full pl-3 pr-2 sm:h-16 sm:pl-4">
+    <header className="sticky top-0 z-40 px-3 pt-2 sm:px-6 sm:pt-3">
+      <div className="glass-nav mx-auto flex h-12 max-w-6xl items-center gap-2 rounded-full pl-2 pr-1.5 sm:h-16 sm:gap-3 sm:pl-4 sm:pr-2">
         <Link href="/" className="flex items-center gap-2.5" aria-label={t.appName}>
           <span
             lang="zh-Hans"
-            className="font-hanzi grid size-9 place-items-center rounded-xl text-lg text-white shadow-[inset_0_1px_0_oklch(1_0_0/40%),0_8px_20px_-8px_oklch(0.62_0.23_22/90%)]"
+            className="font-hanzi grid size-8 place-items-center rounded-lg text-base text-white shadow-[inset_0_1px_0_oklch(1_0_0/40%)] sm:size-9 sm:rounded-xl sm:text-lg"
             style={{ background: 'linear-gradient(135deg, oklch(0.74 0.19 30), oklch(0.58 0.23 22))' }}
           >
             汉
@@ -96,7 +96,7 @@ export function SiteHeader() {
               aria-label={t.settings.open}
               aria-expanded={open}
               onClick={() => setOpen((v) => !v)}
-              className="grid size-10 place-items-center rounded-full border border-border bg-muted text-foreground transition-colors hover:bg-accent"
+              className="grid size-9 place-items-center rounded-full border border-border bg-muted text-foreground transition-colors hover:bg-accent active:scale-95 sm:size-10"
             >
               {open ? <X className="size-4" /> : <SlidersHorizontal className="size-4" />}
             </button>
@@ -104,8 +104,8 @@ export function SiteHeader() {
               <div
                 role="dialog"
                 aria-label={t.settings.title}
-                className="glass-strong absolute right-0 top-[calc(100%+12px)] z-50 w-[min(20rem,calc(100vw-1.5rem))] rounded-3xl p-5 animate-in fade-in zoom-in-95 slide-in-from-top-2"
-                style={{ background: 'color-mix(in oklab, var(--card) 88%, transparent)' }}
+                className="glass-nav absolute right-0 top-[calc(100%+10px)] z-50 w-[min(19rem,calc(100vw-1.5rem))] rounded-3xl p-4 animate-in fade-in duration-150 sm:p-5"
+                style={{ background: 'color-mix(in oklab, var(--card) 92%, transparent)' }}
               >
                 <p className="mb-4 text-sm font-semibold">{t.settings.title}</p>
                 <div className="flex flex-col gap-4">

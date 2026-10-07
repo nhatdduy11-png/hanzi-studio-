@@ -182,7 +182,7 @@ export function StoryReader({ story }: { story: Story }) {
 
       <section
         aria-label={t.stories.voiceAi}
-        className="glass-strong sticky top-[4.75rem] z-30 mb-6 flex flex-col gap-4 rounded-3xl p-4 sm:top-[5.5rem]"
+        className="glass-nav sticky top-[3.75rem] z-30 mb-6 flex flex-col gap-4 rounded-3xl p-4 sm:top-[5.25rem]"
       >
         <div className="flex flex-wrap items-center gap-3">
           <button

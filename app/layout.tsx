@@ -54,11 +54,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{var n=navigator,c=n.connection;if((n.deviceMemory&&n.deviceMemory<=4)||(n.hardwareConcurrency&&n.hardwareConcurrency<=4)||(c&&c.saveData)||matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('lite')}catch(e){}",
+          }}
+        />
+      </head>
       <body className={`${sans.variable} ${hanziSC.variable} ${hanziTC.variable} antialiased`}>
         <SettingsProvider>
           <AuroraBackground />
           <SiteHeader />
-          <main className="mx-auto w-full max-w-6xl px-4 pb-32 pt-6 sm:px-6 md:pb-20 md:pt-10">
+          <main className="mx-auto w-full max-w-6xl px-4 pb-28 pt-4 sm:px-6 md:pb-20 md:pt-10">
             {children}
           </main>
           <BottomNav />

@@ -15,7 +15,7 @@ export function StoryCard({ story }: { story: Story }) {
   return (
     <Link
       href={`/stories/${story.id}`}
-      className="glass glass-lift group relative flex min-h-[18rem] flex-col overflow-hidden rounded-3xl p-6"
+      className="glass glass-lift card-cv group relative flex min-h-[18rem] flex-col overflow-hidden rounded-3xl p-6"
     >
       <div
         aria-hidden="true"

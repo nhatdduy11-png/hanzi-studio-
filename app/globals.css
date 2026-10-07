@@ -6,8 +6,8 @@
 @custom-variant light (&:is(.light *));
 
 @theme inline {
-  --font-sans: var(--font-sans-ui), ui-sans-serif, system-ui, var(--font-hanzi-sc), 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  --font-hanzi: var(--font-hanzi-sc), 'Songti SC', 'Noto Serif CJK SC', serif;
+  --font-sans: var(--font-sans-ui), ui-sans-serif, system-ui, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif;
+  --font-hanzi: 'Songti SC', 'Noto Serif CJK SC', 'Source Han Serif SC', 'SimSun', serif;
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -131,11 +131,16 @@
 
 @layer components {
   .font-hanzi {
-    font-family: var(--font-hanzi-sc), 'Songti SC', 'Noto Serif CJK SC', 'SimSun', serif;
+    font-family: 'Songti SC', 'Noto Serif CJK SC', 'Source Han Serif SC', 'SimSun', serif;
     font-weight: 600;
   }
   .font-hanzi:lang(zh-Hant) {
-    font-family: var(--font-hanzi-tc), 'Songti TC', 'Noto Serif CJK TC', 'PMingLiU', serif;
+    font-family: 'Songti TC', 'Noto Serif CJK TC', 'Source Han Serif TC', 'PMingLiU', serif;
+  }
+  /* Skip layout/paint of off-screen cards in long lists. */
+  .card-cv {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 12rem;
   }
 
   /* Frosted glass surface with a top-edge highlight and a soft drop shadow for depth. */
@@ -171,10 +176,7 @@
       0 14px 30px -14px var(--glass-shadow);
   }
   .glass-lift {
-    transition:
-      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 0.3s ease,
-      border-color 0.3s ease;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
   }
   @media (hover: hover) and (pointer: fine) {
     .glass-lift:hover {
@@ -303,26 +305,23 @@
     color-mix(in oklab, var(--card) 88%, transparent);
 }
 
-/* Phones: lighter blur on content cards, tinted so the glass still reads clearly. */
+/* Phones: content cards use a tinted translucent fill with no backdrop blur (the big GPU cost
+   when dozens of cards scroll); only the few floating bars keep a light blur. */
 @media (max-width: 767px) {
   .glass,
   .glass-strong {
-    backdrop-filter: blur(10px) saturate(150%);
-    -webkit-backdrop-filter: blur(10px) saturate(150%);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
     background: linear-gradient(150deg, var(--glass-hi), var(--glass-lo)),
-      color-mix(in oklab, var(--background) 38%, transparent);
-    box-shadow:
-      inset 0 1px 0 var(--glass-shine),
-      0 10px 22px -14px var(--glass-shadow);
+      color-mix(in oklab, var(--card) 72%, transparent);
+    box-shadow: inset 0 1px 0 var(--glass-shine);
   }
   .glass-nav {
     background: linear-gradient(150deg, var(--glass-hi), var(--glass-lo)),
       color-mix(in oklab, var(--background) 78%, transparent);
-    backdrop-filter: blur(18px) saturate(160%);
-    -webkit-backdrop-filter: blur(18px) saturate(160%);
-    box-shadow:
-      inset 0 1px 0 var(--glass-shine),
-      0 8px 20px -10px var(--glass-shadow);
+    backdrop-filter: blur(12px) saturate(150%);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+    box-shadow: inset 0 1px 0 var(--glass-shine);
   }
 }
 

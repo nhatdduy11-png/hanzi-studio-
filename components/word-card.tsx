@@ -12,7 +12,7 @@ function WordCardBase({ word }: { word: Word }) {
   const meaning = uiLang === 'vi' ? word.vi : word.en
 
   return (
-    <article className="glass glass-lift relative flex flex-col gap-3 overflow-hidden rounded-3xl p-5">
+    <article className="glass glass-lift card-cv relative flex flex-col gap-3 overflow-hidden rounded-3xl p-5">
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <LevelBadge level={word.lvl} />

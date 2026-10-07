@@ -1,6 +1,6 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { Be_Vietnam_Pro, Noto_Serif_SC, Noto_Serif_TC } from 'next/font/google'
+import { Be_Vietnam_Pro } from 'next/font/google'
 import { SettingsProvider } from '@/components/settings-provider'
 import { AuroraBackground } from '@/components/aurora-background'
 import { SiteHeader } from '@/components/site-header'
@@ -13,22 +13,6 @@ const sans = Be_Vietnam_Pro({
   weight: ['400', '500', '600', '700', '800'],
   variable: '--font-sans-ui',
   display: 'swap',
-})
-
-const hanziSC = Noto_Serif_SC({
-  subsets: ['latin'],
-  weight: ['500', '700'],
-  variable: '--font-hanzi-sc',
-  display: 'swap',
-  preload: false,
-})
-
-const hanziTC = Noto_Serif_TC({
-  subsets: ['latin'],
-  weight: ['500', '700'],
-  variable: '--font-hanzi-tc',
-  display: 'swap',
-  preload: false,
 })
 
 export const metadata: Metadata = {
@@ -63,7 +47,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${sans.variable} ${hanziSC.variable} ${hanziTC.variable} antialiased`}>
+      <body className={`${sans.variable} antialiased`}>
         <SettingsProvider>
           <AuroraBackground />
           <ScrollWatcher />

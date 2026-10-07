@@ -86,7 +86,7 @@ function Flashcards({ deck, onRestart }: { deck: Word[]; onRestart: () => void }
           if (!flipped) speak(w)
         }}
         aria-label={t.practice.flip}
-        className="flip-scene h-80 w-full text-left"
+        className="flip-scene relative block h-72 w-full text-left sm:h-80"
       >
         <span className="flip-card block h-full w-full" data-flipped={flipped}>
           <span className="flip-face glass-strong flex flex-col items-center justify-center gap-4 rounded-[2rem] p-8 text-center">

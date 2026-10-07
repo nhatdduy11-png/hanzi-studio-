@@ -283,19 +283,24 @@
   perspective: 1400px;
 }
 .flip-card {
+  position: relative;
+  display: block;
   transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
   transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .flip-card[data-flipped='true'] {
   transform: rotateY(180deg);
 }
-.flip-face {
+.flip-scene .flip-card .flip-face {
+  position: absolute;
+  inset: 0;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   background: linear-gradient(150deg, var(--glass-hi), var(--glass-lo)),
-    color-mix(in oklab, var(--card) 85%, transparent);
+    color-mix(in oklab, var(--card) 88%, transparent);
 }
 
 /* Phones: lighter blur on content cards, tinted so the glass still reads clearly. */
@@ -347,7 +352,7 @@ html.lite .eq-bar {
 html.lite .animate-in {
   animation: none;
 }
-.flip-back {
+.flip-scene .flip-card .flip-back {
   transform: rotateY(180deg);
 }
 

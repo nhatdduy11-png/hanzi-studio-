@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowLeft, Mic, MicOff, Pause, Play, Square } from 'lucide-react'
+import { ArrowLeft, Mic, MicOff, Pause, Play, SlidersHorizontal, Square } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { Story } from '@/lib/stories'
 import { langFor } from '@/lib/speak'
@@ -55,6 +55,7 @@ export function StoryReader({ story }: { story: Story }) {
   const [playing, setPlaying] = useState(false)
   const [showPinyin, setShowPinyin] = useState(true)
   const [showTrans, setShowTrans] = useState(true)
+  const [settingsOpen, setSettingsOpen] = useState(false)
   const [shadow, setShadow] = useState<ShadowResult | null>(null)
   const [shadowIdx, setShadowIdx] = useState<number | null>(null)
 
@@ -142,6 +143,42 @@ export function StoryReader({ story }: { story: Story }) {
   const topic = uiLang === 'vi' ? story.topic.vi : story.topic.en
   const progress = active === null ? 0 : ((active + 1) / story.lines.length) * 100
 
+  const settings = (
+    <div className="flex flex-col gap-3">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+            <Segmented
+              size="sm"
+              label={t.stories.speed}
+              value={String(speech.rate)}
+              onChange={(v) => speech.setRate(Number(v))}
+              options={[
+                { value: '0.6', label: '0.6x' },
+                { value: '0.9', label: '1x' },
+                { value: '1.15', label: '1.25x' },
+              ]}
+            />
+            <label className="flex items-center gap-2 text-sm">
+              <span className="text-muted-foreground">{t.stories.voice}</span>
+              <select
+                value={speech.voiceURI}
+                onChange={(e) => speech.setVoiceURI(e.target.value)}
+                className="max-w-44 truncate rounded-full border border-input bg-muted px-3 py-1.5 text-sm outline-none focus:border-gold/60"
+              >
+                <option value="">{t.stories.autoVoice}</option>
+                {speech.voices.map((v) => (
+                  <option key={v.voiceURI} value={v.voiceURI} className="bg-card text-foreground">
+                    {v.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            {study === 'zh' && <Toggle on={showPinyin} onChange={setShowPinyin} label={t.stories.pinyin} />}
+            <Toggle on={showTrans} onChange={setShowTrans} label={t.stories.translation} />
+          </div>
+          {!speech.supported && <p className="text-sm text-destructive">{t.stories.noVoice}</p>}
+    </div>
+  )
+
   return (
     <div className="mx-auto max-w-3xl">
       <Link
@@ -180,16 +217,17 @@ export function StoryReader({ story }: { story: Story }) {
         <p className="relative mt-2 text-gold">{uiLang === 'vi' ? story.title.vi : story.title.en}</p>
       </header>
 
+      <div className="sticky-bar mb-3">
       <section
         aria-label={t.stories.voiceAi}
-        className="glass-nav sticky top-[3.75rem] z-30 mb-6 flex flex-col gap-4 rounded-3xl p-4 sm:top-[5.25rem]"
+        className="glass-nav relative flex flex-col gap-3 rounded-3xl p-3"
       >
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={togglePlay}
             className={cn(
-              'btn-primary inline-flex h-12 items-center gap-2 rounded-full pl-4 pr-6 text-sm font-bold',
+              'btn-primary inline-flex h-10 items-center gap-2 rounded-full pl-4 pr-5 text-sm font-bold',
               playing && 'pulse-ring',
             )}
           >
@@ -204,7 +242,7 @@ export function StoryReader({ story }: { story: Story }) {
                 stopAll()
                 setActive(null)
               }}
-              className="grid size-12 place-items-center rounded-full border border-border bg-muted transition-colors hover:bg-accent"
+              className="grid size-10 place-items-center rounded-full border border-border bg-muted transition-colors hover:bg-accent"
             >
               <Square className="size-4" aria-hidden="true" />
             </button>
@@ -219,6 +257,15 @@ export function StoryReader({ story }: { story: Story }) {
           <div className="ml-auto text-xs font-medium tabular-nums text-muted-foreground">
             {active !== null ? active + 1 : 0} / {story.lines.length}
           </div>
+          <button
+            type="button"
+            aria-label={t.settings.open}
+            aria-expanded={settingsOpen}
+            onClick={() => setSettingsOpen((v) => !v)}
+            className="show-when-scrolled size-10 shrink-0 place-items-center rounded-full border border-border bg-muted active:scale-95"
+          >
+            <SlidersHorizontal className="size-4" aria-hidden="true" />
+          </button>
         </div>
 
         <div
@@ -234,38 +281,17 @@ export function StoryReader({ story }: { story: Story }) {
           />
         </div>
 
-        <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
-          <Segmented
-            size="sm"
-            label={t.stories.speed}
-            value={String(speech.rate)}
-            onChange={(v) => speech.setRate(Number(v))}
-            options={[
-              { value: '0.6', label: '0.6x' },
-              { value: '0.9', label: '1x' },
-              { value: '1.15', label: '1.25x' },
-            ]}
-          />
-          <label className="flex items-center gap-2 text-sm">
-            <span className="text-muted-foreground">{t.stories.voice}</span>
-            <select
-              value={speech.voiceURI}
-              onChange={(e) => speech.setVoiceURI(e.target.value)}
-              className="max-w-44 truncate rounded-full border border-input bg-muted px-3 py-1.5 text-sm outline-none focus:border-gold/60"
-            >
-              <option value="">{t.stories.autoVoice}</option>
-              {speech.voices.map((v) => (
-                <option key={v.voiceURI} value={v.voiceURI} className="bg-card text-foreground">
-                  {v.name}
-                </option>
-              ))}
-            </select>
-          </label>
-          {study === 'zh' && <Toggle on={showPinyin} onChange={setShowPinyin} label={t.stories.pinyin} />}
-          <Toggle on={showTrans} onChange={setShowTrans} label={t.stories.translation} />
-        </div>
-        {!speech.supported && <p className="text-sm text-destructive">{t.stories.noVoice}</p>}
+        {settingsOpen && (
+          <div
+            className="show-when-scrolled absolute inset-x-0 top-[calc(100%+8px)] z-10 rounded-3xl border border-border p-4 shadow-xl"
+            style={{ background: 'color-mix(in oklab, var(--card) 95%, transparent)' }}
+          >
+            {settings}
+          </div>
+        )}
       </section>
+      </div>
+      <div className="hide-when-scrolled glass mb-6 rounded-3xl p-4">{settings}</div>
 
       <p className="mb-3 px-1 text-sm text-muted-foreground">{t.stories.tapToListen}</p>
 

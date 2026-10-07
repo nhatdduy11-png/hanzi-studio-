@@ -39,7 +39,7 @@ export function SiteHeader() {
   ]
 
   return (
-    <header className="sticky top-0 z-40 px-3 pt-2 sm:px-6 sm:pt-3">
+    <header className="site-header sticky top-0 z-40 px-3 pt-2 sm:px-6 sm:pt-3">
       <div className="glass-nav mx-auto flex h-12 max-w-6xl items-center gap-2 rounded-full pl-2 pr-1.5 sm:h-16 sm:gap-3 sm:pl-4 sm:pr-2">
         <Link href="/" className="flex items-center gap-2.5" aria-label={t.appName}>
           <span
